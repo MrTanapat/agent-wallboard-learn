@@ -1,0 +1,23 @@
+{
+  "name": "agent-wallboard-learn",
+  "version": "1.0.0",
+  "description": "In-class learning",
+  "homepage": "https://github.com/MrTanapat/agent-wallboard-learn#readme",
+  "bugs": {
+    "url": "https://github.com/MrTanapat/agent-wallboard-learn/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrTanapat/agent-wallboard-learn.git"
+  },
+  "license": "ISC",
+  "author": "SE-Tanapat",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
