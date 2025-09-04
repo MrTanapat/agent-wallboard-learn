@@ -55,11 +55,15 @@
 #### 🧪 Final Testing Workflow:
 1. Login Agent: `POST /api/agents/A004/login`
 <img src="https://drive.google.com/uc?export=view&id=11xDkKXeI5h_9lUyAETx_a5RX4dGbgDwL" alt="Login Agent" width="1000" height="400">
-  2. Check Status: `GET /api/agents` (เห็น A004 status = Available)
+
+2. Check Status: `GET /api/agents` (เห็น A004 status = Available)
 <img src="https://drive.google.com/uc?export=view&id=13Wgl27vUlxZog463SiKcqUTXaUK1q8ZE" alt="Check Status" width="1000" height="400">
-  4. Change Status: `PATCH /api/agents/A004/status` (เป็น Active)
+
+3. Change Status: `PATCH /api/agents/A004/status` (เป็น Active)
 <img src="https://drive.google.com/uc?export=view&id=1giQ1JJz_v1hPytbUskXvdQSANGZ7gl_C" alt="Change Status" width="1000" height="400">
-  5. Check Dashboard:`GET /api/dashboard/stats` (เลขเปลี่ยน)
+
+4. Check Dashboard:`GET /api/dashboard/stats` (เลขเปลี่ยน)
 <img src="https://drive.google.com/uc?export=view&id=101FrXSgcUpACRPWNVsw-BY0zeszCosIN" alt="Check Dashboard" width="1000" height="400">
-  6. Logout: `POST /api/agents/A004/logout` (status เป็น Offline)
+
+5. Logout: `POST /api/agents/A004/logout` (status เป็น Offline)
 <img src="https://drive.google.com/uc?export=view&id=10_O6ofUlOar8R6RJRHEZa386hYNnoB-0" alt="Your Description" width="1000" height="400">
