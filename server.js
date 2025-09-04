@@ -52,7 +52,7 @@ let agents = [
   },
 ];
 
-app.use(express());
+app.use(express.json());
 app.patch("/api/agents/:code/status", (req, res) => {
   // Step 1: ดึง agent code จาก URL
   const agentCode = req.params.code; // เติม
@@ -60,16 +60,44 @@ app.patch("/api/agents/:code/status", (req, res) => {
   const newStatus = req.body.status; // เติม
   // find Agent
   const agent = agents.find((a) => a.code === agentCode);
+  if (!agent) {
+    return res.status(404).json({
+      success: false,
+      message: "Agent not found",
+    });
+  }
 
   // Valid statuses
-  if (!agent) {
-    return res
-      .status(404)
-      .json({ success: false, message: "Agent not found." });
+  const validStatuses = [
+    "Available",
+    "Active",
+    "Wrap Up",
+    "Not Ready",
+    "Offline",
+  ];
+  if (!validStatuses.includes(newStatus)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid status provided",
+    });
   }
 
   // Save old status
   const oldStatus = agent.status;
+  agent.status = newStatus;
+  console.log(
+    `[${new Date().toISOString()}] Agent ${agentCode}: ${oldStatus} -> ${newStatus}`
+  );
+  res.status(200).json({
+    success: true,
+    message: `Status of agent ${agentCode} updated`,
+    data: {
+      oldStatus: oldStatus,
+      newStatus: newStatus,
+      agent: agent,
+    },
+    timestamp: new Date().toISOString(),
+  });
 });
 
 app.get("/api/agents", (req, res) => {
