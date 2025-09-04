@@ -3,6 +3,9 @@ const app = express();
 
 const PORT = 3001;
 
+const cors = require("cors");
+app.use(cors());
+
 app.get("/", (req, res) => {
   res.send("Hello Agent Wallboard!");
 });
@@ -127,6 +130,49 @@ app.get("/health", (req, res) => {
     status: "OK",
     timestamp: new Date().toISOString(),
   });
+});
+
+app.get("/api/dashboard/stats", (req, res) => {
+  // ขั้นที่ 1: นับจำนวนรวม
+  const totalAgents = agents.length; // เติม
+
+  // ขั้นที่ 2: นับ Available agents
+  const available = agents.filter((a) => a.status === "Available").length; // เติม
+  const active = agents.filter((a) => a.status === "Active").length;
+  const wrapUp = agents.filter((a) => a.status === "Wrap_Up").length;
+  const notReady = agents.filter((a) => a.status === "Not_Ready").length;
+  const offline = agents.filter((a) => a.status === "Offline").length;
+
+  // ให้นักศึกษาเขียน active, wrapUp, notReady, offline เอง
+
+  // ขั้นที่ 3: คำนวณเปอร์เซ็นต์
+  const availablePercent =
+    totalAgents > 0 ? Math.round((available / totalAgents) * 100) : 0;
+  const activePercent =
+    totalAgents > 0 ? Math.round((active / totalAgents) * 100) : 0;
+  const wrapUpPercent =
+    totalAgents > 0 ? Math.round((wrapUp / totalAgents) * 100) : 0;
+  const notReadyPercent =
+    totalAgents > 0 ? Math.round((notReady / totalAgents) * 100) : 0;
+  const offlinePercent =
+    totalAgents > 0 ? Math.round((offline / totalAgents) * 100) : 0;
+
+  res.json({
+    success: true,
+    data: {
+      total: totalAgents,
+      statusBreakdown: {
+        available: { count: available, percent: availablePercent },
+        active: { count: active, percent: activePercent },
+        wrapUp: { count: wrapUp, percent: wrapUpPercent },
+        notReady: { count: notReady, percent: notReadyPercent },
+        offline: { count: offline, percent: offlinePercent },
+      },
+      timestamp: new Date().toISOString(),
+    },
+  });
+
+  // ให้นักศึกษาทำส่วนอื่นเอง...
 });
 
 app.listen(PORT, () => {
