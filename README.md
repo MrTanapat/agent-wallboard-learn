@@ -26,7 +26,7 @@
     - OFFLINE    = ออฟไลน์
     
     Status transitions
-    ``` LOGIN -> AVAILABLE -> ACTIVE -> WRAP_UP -> NOT_READY -> OFFLINE ```
+    ``` LOGIN -> AVAILABLE -> ACTIVE -> WRAP_UP -> AVAILABLE -> NOT_READY -> OFFLINE ```
     
     transitions ที่ไม่ควรอนุญาต
     - LOGIN -> ACTIVE
