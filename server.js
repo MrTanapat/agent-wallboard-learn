@@ -56,6 +56,72 @@ let agents = [
 ];
 
 app.use(express.json());
+
+app.post("/api/agents/:code/login", (req, res) => {
+  const agentCode = req.params.code;
+  const { name } = req.body;
+
+  // 1. หา agent หรือสร้างใหม่ถ้าไม่มี
+  let agent = agents.find((a) => a.code === agentCode);
+  const isNewAgent = !agent;
+
+  if (isNewAgent) {
+    // สร้าง agent ใหม่
+    agent = {
+      code: agentCode,
+      name: name,
+      Tasks: "0",
+      // 2. เซ็ต status เป็น "Available"
+      status: "Available",
+      timestamp: new Date().toISOString(),
+    };
+    agents.push(agent);
+  } else {
+    agent.status = "Available";
+    timestamp: new Date().toISOString();
+  }
+
+  // 3. บันทึก loginTime
+  const oldStatus = agent.status;
+  agent.status = "AVAILABLE";
+  agent.timestamp = new Date().toISOString();
+
+  console.log(
+    `[${agent.timestamp}] Agent ${agent.code} logged in. Status: ${oldStatus} -> ${agent.status}`
+  );
+
+  // 4. ส่ง response
+  res.status(200).json({
+    success: true,
+    message: `Agent ${agent.code} logged in successfully.`,
+    data: agent,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+app.post("/api/agents/:code/logout", (req, res) => {
+  const agentCode = req.params.code;
+
+  const agent = agents.find((a) => a.code === agentCode);
+
+  if (!agent) {
+    return res.status(404).json({ success: false, message: "Agent not found" });
+  }
+
+  const oldStatus = agent.status;
+  agent.status = "Offline";
+  delete agent.loginTime;
+  res.status(200).json({
+    success: true,
+    message: `Agent ${agent.code} logged out successfully.`,
+    data: {
+      oldStatus: oldStatus,
+      newStatus: agent.status,
+    },
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.patch("/api/agents/:code/status", (req, res) => {
   // Step 1: ดึง agent code จาก URL
   const agentCode = req.params.code; // เติม
